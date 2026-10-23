@@ -32,7 +32,7 @@ Too many wrong codes lock pairing for a short while: wait, then call `request_pa
 
 ## 4. Prove it works
 1. Call `status()`: it must say you are paired.
-2. Read the resource `plinth://skill` and follow **THE METHOD**. If your client cannot read MCP resources, call `read_guide({name: "skill"})` instead; it works before pairing. In short: understand what would make the user happy, ask at most 3 short questions on the phone (`ask_user`), cover every scenario, build it, prove it works (`screenshot_space`), then tell the user on the phone how to use it (`tell_user`).
+2. Read the resource `plinth://skill` and follow **THE METHOD**. If your client cannot read MCP resources, call `read_guide({name: "skill"})` instead; it works before pairing. In short: understand what would make the user happy, ask at most 3 short questions on the phone (`ask_user`), plan every scenario (`plan_space`), build it, prove it works (`screenshot_space`), then tell the user on the phone how to use it (`tell_user`).
 3. Create a tiny test space, for example `create_space(id: "hello", title: "Hello", markdown: "# Hello\n\n- [ ] It works", open: true)`, then `tell_user("Hello from your agent", "success")`. Ask on the phone with `ask_user("Keep the test note?", ["Delete it", "Keep it"])`, and `delete_space("hello")` only if they choose Delete.
 
 ## Troubleshooting

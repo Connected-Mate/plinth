@@ -35,14 +35,14 @@ Full guide: {SETUP_URL}
 1. Find my phone: on a Mac run dns-sd -B _{SLUG}._tcp local. then dns-sd -L {NAME} _{SLUG}._tcp local. (or ask me to tap the round button in {NAME} and paste you what it copies).
 2. Connect: claude mcp add --transport http {SLUG} http://<phone-ip>:<port>/mcp (other agents: add it as an HTTP MCP server). If its tools don't show up, ask me to restart you.
 3. Call request_pairing, ask me for the 6-digit code shown on my phone, then pair with it plus agent_kind and agent_name (who you are). Run the exact command pair returns, so you stay paired next time.
-4. Read the resource {SLUG}://skill (or call read_guide) and follow THE METHOD: understand what would make me happy, ask me at most 3 short questions on my phone (ask_user), cover every scenario, build it, prove it works (screenshot_space), then tell me on the phone (tell_user) how to use it.
+4. Read the resource {SLUG}://skill (or call read_guide) and follow THE METHOD: understand what would make me happy, ask me at most 3 short questions on my phone (ask_user), plan every scenario (plan_space), build it, prove it works (screenshot_space), then tell me on the phone (tell_user) how to use it.
 {NAME} only answers while the app is open on my phone.""",
     "fr": f"""{NAME} est une app sur mon iPhone : tu peux m'y construire de petites apps, des listes et des notes via notre Wi‑Fi (serveur MCP). Je ne suis pas technique : parle-moi avec des mots simples, sur mon téléphone.
 Guide complet : {SETUP_URL}
 1. Trouve mon téléphone : sur un Mac, lance dns-sd -B _{SLUG}._tcp local. puis dns-sd -L {NAME} _{SLUG}._tcp local. (ou demande-moi de toucher le bouton rond dans {NAME} et de te coller ce qu'il copie).
 2. Connecte-toi : claude mcp add --transport http {SLUG} http://<ip-du-téléphone>:<port>/mcp (autres agents : ajoute-le comme serveur MCP HTTP). Si ses outils n'apparaissent pas, demande-moi de te redémarrer.
 3. Appelle request_pairing, demande-moi le code à 6 chiffres affiché sur mon téléphone, puis appelle pair avec ce code, agent_kind et agent_name (qui tu es). Lance la commande exacte que pair renvoie, pour rester appairé la prochaine fois.
-4. Lis la ressource {SLUG}://skill (ou appelle read_guide) et suis THE METHOD : comprends ce qui me ferait plaisir, pose-moi au plus 3 questions courtes sur mon téléphone (ask_user), couvre tous les cas, construis, prouve que ça marche (screenshot_space), puis dis-moi sur le téléphone (tell_user) comment m'en servir.
+4. Lis la ressource {SLUG}://skill (ou appelle read_guide) et suis THE METHOD : comprends ce qui me ferait plaisir, pose-moi au plus 3 questions courtes sur mon téléphone (ask_user), planifie chaque cas (plan_space), construis, prouve que ça marche (screenshot_space), puis dis-moi sur le téléphone (tell_user) comment m'en servir.
 {NAME} ne répond que quand l'app est ouverte sur mon téléphone.""",
 }
 
@@ -484,13 +484,13 @@ def catalog_sections() -> list[tuple[str, list[tuple[str, str]]]]:
 
 
 SECTIONS = catalog_sections()
-TOOL_COUNT = 135  # app total (tools/list)
+TOOL_COUNT = 137  # app total (tools/list)
 SHARING = (ROOT / "site/data/sharing.md").read_text(encoding="utf-8").strip()
 TOOLS = [t for name, rows in SECTIONS[:2] for t in rows]  # core: spaces, pairing, talking to the user
 METHOD = [
-    ("Understand", "Restate the goal in one line, then ask what would make the user happy (and what would annoy them). list_spaces() first: update, never duplicate."),
+    ("Understand", "Restate the goal in one line, then a happiness pass. With a sub-agent tool, spawn one with this exact brief: “Idea: <goal>. The user is not technical and will use it on an iPhone. In 5 bullets: who uses it and when; the one moment it must feel effortless; what would delight them; what would annoy or confuse them; which phone surface besides the app helps (reminder, widget, Lock Screen countdown, share). No code.” Without sub-agents, write 3 lines yourself: who + when, delight, annoyance + companion surface. Then list_spaces(): update, never duplicate."),
     ("Ask on the phone", "At most 3 ask_user questions, one at a time, 2–4 short options, your recommendation first. Timed out = use your default."),
-    ("Scenarios", "Before any HTML: happy path, first use, invalid input, errors, offline, rapid taps, background, dark mode, large text, undo, time passing."),
+    ("Plan: plan_space", "Before any HTML, call plan_space({id, goal, questions_asked, scenarios:[{name, status: handled | out_of_scope, how}]}): happy path, first use, invalid input, errors, offline, rapid taps, background, dark mode, large text, undo, time passing. It is stored with the space (read_plan reads it back). create_space without a plan only gets a reminder."),
     ("Build", "With the kit (plinth://kit) and the house design, or the user's own style as a theme."),
     ("Prove", "screenshot_space for the empty AND the filled state, look at the images, fix and re-shoot. Never “should work”."),
     ("Deliver", "open_space, then tell_user how to use it in one sentence. Offer the obvious companion (reminder, widget, Live Activity) once."),
