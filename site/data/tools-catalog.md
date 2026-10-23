@@ -1,5 +1,5 @@
-<!-- Snapshot of plinth skill/plinth-design/TOOLS.md tool catalog (feature/method 03f5f14), sharing tools omitted until that feature ships. Refresh: copy the '## Tool catalog' section again. -->
-## Tool catalog (generated from the app: 135 tools, the 8 guest-sharing tools are omitted here until sharing ships)
+<!-- Snapshot of plinth skill/plinth-design/TOOLS.md tool catalog (feature/method d3ae59c); guest sharing shipped on main 4fd46f4. Refresh: copy the '## Tool catalog' section again. -->
+## Tool catalog (generated from the app, 135 tools)
 Exact names and parameters (`?` = optional). Full JSON schemas: `tools/list`. Annotations: read-only tools never change anything; destructive ones always ask the user on the phone first.
 
 ### Spaces, pairing, widgets, Live Activities, notifications
@@ -157,3 +157,14 @@ Exact names and parameters (`?` = optional). Full JSON schemas: `tools/list`. An
 | `list_runtimes()` | Language runtimes: installed or not, version, size, license, and the JS to use each in a space. |
 | `remove_runtime(name)` | Delete an installed runtime to free space (spaces using it show their "needs runtime" state). (destructive) |
 
+### Sharing with guests
+| Tool | What it does |
+|---|---|
+| `share_space(space, auto_delete_at?, disk_cap_mb?, expires_at?, host_name?, live_activity?, max_guests?, notify_on_post?, permissions?, rotate_link?, share_window_ends_at?, title?, welcome?)` | Share a space with people nearby (party, meeting, class). Returns the guest link (served by the phone itself), a QR code image (also saved as an asset usable in spaces as <img src="plinth-asset://assets/<file>">) and the text to tell guests. Guests open the link in their browser, join with their name and post text/photos; posts land on this phone. Guests must be on the same Wi‑Fi as the phone or on its Personal Hotspot, and Plinth must stay open in the foreground. Calling it again on a shared space updates the settings and keeps the link. |
+| `list_shares()` | All shares (open and closed) with links, guest/post/photo counts and dates. |
+| `update_share(space, auto_delete_at?, close?, disk_cap_mb?, expires_at?, host_name?, max_guests?, notify_on_post?, permissions?, share_window_ends_at?, title?, welcome?)` | Change a share's settings: extend or shorten dates, change permissions, or close it now (close=true). Send only what changes. |
+| `revoke_share(space, delete_data?)` | Kill the guest link immediately. Posts and photos are kept for a recap unless delete_data=true. (destructive) |
+| `list_posts(space, limit?, since?)` | Guest posts on a shared space, newest first: author, text, reactions, photo ids. Read a photo with get_post_asset or resource plinth://shares/<space>/photos/<id>. |
+| `get_post_asset(space, photo)` | Return one guest photo (JPEG, ≤ 1600 px, metadata stripped) as an image. |
+| `delete_post(space, post)` | Remove a guest post and its photos (moderation). (destructive) |
+| `ban_guest(space, guest, delete_posts?)` | Block a guest (and their device's address) from this share. Their posts are removed unless delete_posts=false. (destructive) |
