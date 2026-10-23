@@ -1,0 +1,24 @@
+<!doctype html><html data-theme="light"><head><meta charset="utf-8"><title>render</title>
+<link rel="stylesheet" href="../docs/style.css">
+<style>
+html,body{margin:0;width:1200px;height:630px;overflow:hidden;background-attachment:scroll}
+body::before,body::after{position:absolute}
+.og{position:relative;width:1200px;height:630px;padding:56px 64px;display:grid;grid-template-rows:auto 1fr auto}
+.og h1{font-size:220px;margin-left:-6px}
+.og .c{display:grid;place-items:center}
+.og .pill{width:480px}
+.og .tag{justify-self:end;text-align:right}
+.og .tag .display{font-size:58px}
+.og .tag p:last-child{color:var(--p-muted);font-size:20px;margin-top:10px;line-height:1.4}
+.icon{width:512px;height:512px}
+</style></head><body>
+<div class="og" id="og">
+ <h1 class="display" id="n">PLINTH</h1>
+ <div class="c"><div class="pill"><p class="pill__text"><b id="pb"></b><small id="ps"></small></p><span class="round"><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></div>
+ <div class="tag"><p class="display display--italic" id="tg"></p><p id="bd"></p></div>
+</div>
+<script>
+var L={fr:["Colle ça à ton agent","Le prompt d'installation, en un toucher","À ton image","Ton agent y dépose notes, listes et mini-apps.<br>Elles arrivent ici, aussitôt."],
+en:["Paste this to your agent","The setup prompt, one tap away","Make it yours","Your agent sends notes, lists and tiny apps.<br>They land here, instantly."]};
+var l=L[location.hash.slice(1)||'fr'];pb.textContent=l[0];ps.textContent=l[1];tg.textContent=l[2];bd.innerHTML=l[3];
+</script></body></html>

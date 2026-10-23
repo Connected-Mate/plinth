@@ -1,0 +1,1 @@
+{"name":"plinth-video","private":true,"type":"module","scripts":{"render":"node render.mjs"},"dependencies":{"@napi-rs/canvas":"^0.1.65","ffmpeg-static":"^5.2.0"}}
