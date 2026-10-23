@@ -484,7 +484,7 @@ def catalog_sections() -> list[tuple[str, list[tuple[str, str]]]]:
 
 
 SECTIONS = catalog_sections()
-TOOL_COUNT = 137  # app total (tools/list)
+TOOL_COUNT = 138  # app total (tools/list)
 SHARING = (ROOT / "site/data/sharing.md").read_text(encoding="utf-8").strip()
 TOOLS = [t for name, rows in SECTIONS[:2] for t in rows]  # core: spaces, pairing, talking to the user
 METHOD = [

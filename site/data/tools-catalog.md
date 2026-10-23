@@ -1,5 +1,5 @@
-<!-- Snapshot of plinth skill/plinth-design/TOOLS.md tool catalog (feature/method 7a83fec). Refresh: copy the '## Tool catalog' section again. -->
-## Tool catalog (generated from the app, 137 tools)
+<!-- Snapshot of plinth skill/plinth-design/TOOLS.md tool catalog (feature/method b4dba49). Refresh: copy the '## Tool catalog' section again. -->
+## Tool catalog (generated from the app, 138 tools)
 Exact names and parameters (`?` = optional). Full JSON schemas: `tools/list`. Annotations: read-only tools never change anything; destructive ones always ask the user on the phone first.
 
 ### Spaces, pairing, widgets, Live Activities, notifications
@@ -12,11 +12,12 @@ Exact names and parameters (`?` = optional). Full JSON schemas: `tools/list`. An
 | `list_spaces()` | All spaces on the phone, newest first. |
 | `plan_space(id, goal, scenarios, questions_asked?)` | Call BEFORE create_space for any HTML app: it's how Plinth keeps your user happy. Record the goal (one line), the questions you asked on the phone (≤ 3) and every scenario, each handled or deliberately out of scope (first use/empty, invalid input, errors, offline, repeated taps, background/locked, dark mode, long text, deletion, time passing). Stored with the space (also before it exists); read it back with read_plan. Calling again replaces the plan. |
 | `read_plan(id)` | The plan recorded with plan_space for a space (goal, questions asked, scenarios). Use it before changing a space someone planned. |
-| `create_space(id, title, collection?, html?, icon?, markdown?, network?, open?, theme?)` | Create a space on the phone: an HTML page/mini-app (html) or a native quick note (markdown). Read resource plinth://skill first and follow its design system. Max 20 MB of HTML; put images/video/audio in with upload_asset or fetch_asset instead of inlining them. |
-| `update_space(id, html?, icon?, markdown?, network?, theme?, title?)` | Replace a space's content and/or title/icon. Send only what changes. |
+| `create_space(id, title, app?, collection?, html?, icon?, markdown?, network?, open?, theme?)` | Create a space on the phone: an HTML page/mini-app (html) or a native quick note (markdown). Read resource plinth://skill first and follow its design system. Max 20 MB of HTML; put images/video/audio in with upload_asset or fetch_asset instead of inlining them. |
+| `update_space(id, app?, html?, icon?, markdown?, network?, theme?, title?)` | Replace a space's content and/or title/icon. Send only what changes. |
 | `delete_space(id)` | Delete a space and its stored data from the phone. (destructive) |
 | `append_note(space, text, title?)` | Append markdown text to a note space (creates the note if missing). Ideal for quick capture. |
 | `open_space(id)` | Open a space full-screen on the phone. |
+| `launch_space(id, immersive?)` | Run an app space (create_space/update_space app: true) truly full-screen on the phone: no status bar, no Plinth chrome, edge-to-edge (design with env(safe-area-inset-*)). The ONLY way back is a firm shake (plus accessibility fallbacks); tell the user. immersive: false = just open it (like open_space). |
 | `set_widget(title, progress?, space?, subtitle?)` | Update the Plinth home-screen widget (user adds it once from the widget gallery). |
 | `start_live_activity(title, ends_at?, progress?, space?, subtitle?)` | Show a Live Activity on the Lock Screen and Dynamic Island (one at a time is ideal). Give ends_at for a self-updating countdown. |
 | `update_live_activity(ends_at?, id?, progress?, subtitle?, title?)` | Update the running Live Activity (latest one if id omitted). |
