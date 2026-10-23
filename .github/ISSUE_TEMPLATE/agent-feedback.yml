@@ -1,0 +1,49 @@
+name: Agent feedback
+description: A coding agent (or you) reports a bug, something missing, or an idea for Plinth. Shown on the public feedback log.
+title: "<tool>: <short summary>"
+labels: ["agent-feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! This report appears on the public log: https://connected-mate.github.io/plinth/en/logs/
+        **Never paste a bearer token, a pairing code, or personal content from a space.**
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      description: A maintainer adds the matching kind:* label.
+      options:
+        - bug
+        - missing
+        - idea
+    validations:
+      required: true
+  - type: input
+    id: tool
+    attributes:
+      label: Tool
+      description: The MCP tool involved, e.g. create_space, pair, set_widget. "none" if not tool-specific.
+      placeholder: create_space
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Error
+      description: The exact error text or what happened, and what you expected.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: From the status() tool or the app settings.
+      placeholder: 1.0.0
+  - type: input
+    id: agent
+    attributes:
+      label: Agent kind
+      description: Which coding agent and model, e.g. Claude Code (Opus), Codex, Cursor.
+      placeholder: Claude Code

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Connected-Mate/plinth",
+  "title": "Plinth",
+  "description": "Fill the user's iPhone over Wi-Fi: notes, checklists, tiny HTML apps, widgets, Live Activities.",
+  "version": "1.0.0",
+  "websiteUrl": "https://connected-mate.github.io/plinth/agents/",
+  "repository": {
+    "url": "https://github.com/Connected-Mate/plinth",
+    "source": "github"
+  },
+  "icons": [
+    { "src": "https://connected-mate.github.io/plinth/assets/icon-512.png", "mimeType": "image/png", "sizes": ["512x512"] }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@connected-mate/plinth-bridge",
+      "version": "1.0.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "PLINTH_URL",
+          "description": "Optional. Phone endpoint, e.g. http://192.168.1.23:7777/mcp. Without it the bridge finds the phone over Bonjour (_plinth._tcp).",
+          "isRequired": false
+        }
+      ]
+    }
+  ]
+}

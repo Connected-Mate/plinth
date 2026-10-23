@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Setup guide for agents
+    url: https://github.com/Connected-Mate/plinth/blob/main/AGENT-SETUP.md
+    about: Connect, pair and prove it works.
