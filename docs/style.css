@@ -297,3 +297,4 @@ details p{color:var(--p-muted);max-width:65ch;margin-top:var(--s2)}
 .logs__state--closed::before{background:var(--p-success)}
 .logs__links{margin-top:var(--s7);color:var(--p-muted)}
 @media (prefers-reduced-motion:no-preference){.logs__group{animation:land .5s var(--ease) both}}
+.doc .doc__table+p,.doc .doc__list+p,.doc p+.doc__list,.doc p+.doc__table{margin-top:var(--s4)}

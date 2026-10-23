@@ -25,23 +25,27 @@ If the `plinth` tools do not appear, ask the user to restart you (or reload MCP 
 
 ## 3. Pair (once)
 1. Call `request_pairing()`. A 6-digit code appears on the phone (valid 2 minutes).
-2. Ask the user for the code, then call `pair(code, agent_name)` with a short name for yourself.
+2. Ask the user for the code, then call `pair(code, agent_kind, agent_name)`. `agent_kind` is one of claude-code, claude-desktop, codex, chatgpt, cursor, copilot, gemini, windsurf, mistral, perplexity or other. `agent_name` is a short name for yourself. The phone shows them.
 3. `pair` returns a bearer token **and the exact command to save it** (it re-adds the server with an `Authorization: Bearer …` header). Run that command exactly, so you stay paired next time. Never print the token anywhere else.
 
 Too many wrong codes lock pairing for a short while: wait, then call `request_pairing` again.
 
 ## 4. Prove it works
 1. Call `status()`: it must say you are paired.
-2. Read the resource `plinth://skill` and follow it (design system, rules, tool reference).
-3. Create a tiny test space, for example `create_space(id: "hello", title: "Hello", markdown: "# Hello\n\n- [ ] It works", open: true)`, and ask the user whether it appeared on the phone. Then ask whether to keep or `delete_space("hello")`.
+2. Read the resource `plinth://skill` and follow **THE METHOD**. If your client cannot read MCP resources, call `read_guide({name: "skill"})` instead; it works before pairing. In short: understand what would make the user happy, ask at most 3 short questions on the phone (`ask_user`), cover every scenario, build it, prove it works (`screenshot_space`), then tell the user on the phone how to use it (`tell_user`).
+3. Create a tiny test space, for example `create_space(id: "hello", title: "Hello", markdown: "# Hello\n\n- [ ] It works", open: true)`, then `tell_user("Hello from your agent", "success")`. Ask on the phone with `ask_user("Keep the test note?", ["Delete it", "Keep it"])`, and `delete_space("hello")` only if they choose Delete.
 
 ## Troubleshooting
 | Symptom | Fix |
 |---|---|
 | Connection refused / timeout | Plinth is closed, in the background, or on another network. Ask the user to open it on the same Wi‑Fi. |
 | "Not paired" | Run step 3 again. |
+| A tool fails or something is missing | Call `feedback(kind, summary, error?, tool?)` and run the `gh` command it returns. The report shows on https://connected-mate.github.io/plinth/en/logs/ |
 | "This token was revoked on the phone" | The user revoked you in Plinth's settings. Pair again and save the new command. |
 | Address changed | Phone got a new IP. Repeat step 1, then re-run the saved command with the new address. |
+
+## The user is not technical
+Talk to them on the phone, in plain words, one question at a time. Always ask with `ask_user` before anything destructive. If it times out or is dismissed, that means no.
 
 ## Uninstall
 ```sh

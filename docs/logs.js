@@ -36,21 +36,29 @@
   function slim(raw) {
     return raw.filter(function (i) { return !i.pull_request; }).map(function (i) {
       var labels = (i.labels || []).map(function (l) { return typeof l === 'string' ? l : l.name; });
-      return { n: i.number, t: i.title || '', u: i.html_url, c: i.created_at, s: i.state, k: kindOf(labels, i.body || ''), a: field(i.body || '', 'Agent kind') };
+      return { n: i.number, t: i.title || '', u: i.html_url, c: i.created_at, s: i.state, k: kindOf(labels, i.body || '', i.title), a: field(i.body || '', ['Agent kind', 'Agent']) };
     });
   }
-  function field(body, name) {
-    var m = body.match(new RegExp('###\\s*' + name + '\\s*\\n+([^\\n#][^\\n]*)', 'i'));
-    var v = m ? m[1].trim() : '';
-    return /^_?no response_?$/i.test(v) ? '' : v.slice(0, 60);
+  // Two body formats: GitHub issue forms ("### Agent kind\n\nvalue") and the app's feedback tool ("**Agent:** value").
+  function field(body, names) {
+    for (var i = 0; i < names.length; i++) {
+      var n = names[i];
+      var m = body.match(new RegExp('###\\s*' + n + '\\s*\\n+([^\\n#][^\\n]*)', 'i')) ||
+              body.match(new RegExp('\\*\\*' + n + ':\\*\\*\\s*([^\\n]+)', 'i'));
+      var v = m ? m[1].trim() : '';
+      if (v && !/^_?no response_?$/i.test(v)) return v.slice(0, 60);
+    }
+    return '';
   }
-  function kindOf(labels, body) {
+  function kindOf(labels, body, title) {
     for (var i = 0; i < labels.length; i++) {
       var m = /^kind:(bug|missing|idea)$/.exec(labels[i]);
       if (m) return m[1];
     }
-    var f = field(body, 'Kind').toLowerCase();
-    return KINDS.indexOf(f) > -1 ? f : 'other';
+    var f = field(body, ['Kind']).toLowerCase();
+    if (KINDS.indexOf(f) > -1) return f;
+    var t = /^\[(bug|missing|idea)\]/i.exec(title || '');
+    return t ? t[1].toLowerCase() : 'other';
   }
 
   function el(tag, cls, text) {
