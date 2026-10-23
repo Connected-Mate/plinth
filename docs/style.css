@@ -302,3 +302,6 @@ details p{color:var(--p-muted);max-width:65ch;margin-top:var(--s2)}
 .feed li{display:flex;gap:var(--s3);align-items:flex-start;line-height:1.35}
 .feed__who{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--p-bg);font-size:18px}
 .share-line{color:var(--p-ink);font-size:17px}
+.doc__check{list-style:none;padding-left:0}
+.doc__check li{position:relative;padding-left:30px}
+.doc__check li::before{content:"";position:absolute;left:0;top:.2em;width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--p-ink)}

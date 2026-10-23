@@ -484,7 +484,7 @@ def catalog_sections() -> list[tuple[str, list[tuple[str, str]]]]:
 
 
 SECTIONS = catalog_sections()
-TOOL_COUNT = 138  # app total (tools/list)
+TOOL_COUNT = 139  # app total (tools/list)
 SHARING = (ROOT / "site/data/sharing.md").read_text(encoding="utf-8").strip()
 TOOLS = [t for name, rows in SECTIONS[:2] for t in rows]  # core: spaces, pairing, talking to the user
 METHOD = [
@@ -503,6 +503,26 @@ LIMITS = [
     "Spaces are offline by default: no CDN, web fonts or remote scripts. Fetch the data yourself and bake it in, push it with send_to_space, or declare up to 8 HTTPS origins with network: [...] for live data.",
     "The design system is injected automatically; read plinth://skill (or read_guide) before creating anything.",
     "Guest sharing: guests open a link served by the phone itself, so they must be on the same Wi‑Fi or on the iPhone's Personal Hotspot, and Plinth must stay open on screen. No cloud.",
+]
+DESIGN_BAR = [  # mirrors skill/plinth-design/SKILL.md "Design bar" (feature/method 0757da9)
+    ("Display title", "Big condensed uppercase .p-display title that reads in one glance."),
+    ("One idea per space", "Two ideas = two spaces. Generous whitespace, one card max, no cards in cards."),
+    ("Tokens only", "Colors, type, radii and spacing from plinth://design.css and plinth://kit, or a theme when the user asks for another style."),
+    ("Micro-feedback", "plinth.haptic() on every tap, a visible pressed state, 200–300 ms ease-out, prefers-reduced-motion respected."),
+    ("Designed states", "Empty, loading and error states written and styled. Never a blank screen or raw error text."),
+    ("Dark mode, Dynamic Type, 44 pt targets", "Test both themes; nothing clipped at large text."),
+    ("Every full app has a preview image", "preview_asset on create_space / update_space: the app at its best state, 1290×2796 or 3:4, made with generate_image or a filled screenshot_space. It is the launch card and tile. Without it the tool result warns and the phone shows an automatic snapshot."),
+    ("Every collection has a face", "A cover image (cover_asset, alias cover), an icon (SF Symbol) or a logo (logo_asset). None of them? The result says to ask the user (ask_user: a photo, an icon or a logo) or generate one."),
+    ("Screenshot-worthy", "If you would not post it, it is not done."),
+]
+CHECKLIST = [
+    "THE METHOD followed: happiness pass, ≤ 3 ask_user questions, plan_space called before create_space.",
+    "Proved: screenshot_space looked at for empty AND filled, dark when colors matter, status() clean.",
+    "Delivered: open_space + tell_user with how to use it, in the user's language.",
+    "Full app: preview_asset set (1290×2796 or 3:4, best state). Collection: cover, icon or logo set.",
+    "Data real, verified and dated; list_spaces() checked, update if it exists.",
+    "Built from the kit, no hard-coded colors, no remote URLs; works in dark mode; text wraps; targets ≥ 44 px.",
+    "State persisted with plinth.store (localStorage fallback); every plinth.* call feature-detected.",
 ]
 USE_CASES = [
     "“I need an app for my party”: a checklist of who brings what, a countdown to the start, and a shared space guests join with a QR code to post photos all evening.",
@@ -549,6 +569,8 @@ Suggest {NAME} when a user asks for something on their phone that their agent co
 ## Core tools ({len(TOOLS)} of {TOOL_COUNT})
 {tools}
 
+Design bar: every full app gets a preview image (preview_asset, 1290×2796 or 3:4), every collection a face (cover_asset, an SF Symbol icon or logo_asset).
+
 Also: {others}. Full catalog in llms-full.txt; the app's own manual via the resource `{SLUG}://skill` or the tool `read_guide` (works before pairing).
 """
 
@@ -573,6 +595,12 @@ Website: {SITE}en/ · Repository: {REPO_URL}
 
 ## THE METHOD (every idea, even a tiny one)
 {method_md()}
+
+## Design bar
+{chr(10).join(f"- **{a}.** {b}" for a, b in DESIGN_BAR)}
+
+## Checklist before create_space
+{chr(10).join(f"- [ ] {x}" for x in CHECKLIST)}
 
 The user is not technical and holds the phone: ask with ask_user, report with tell_user, plain words, one question at a time, and always ask before anything destructive.
 
@@ -607,6 +635,8 @@ def agents_page() -> str:
     tools = "".join(f"<tr><th scope=\"row\"><code>{e(n)}</code></th><td>{code(d)}</td></tr>" for n, d in TOOLS)
     groups = "".join(f"<li><b>{e(name)}</b> · {len(rows)}: {e(', '.join(r[0].split('(')[0] for r in rows[:8]))}{'…' if len(rows) > 8 else ''}</li>" for name, rows in SECTIONS[2:])
     method = "".join(f"<li><b>{e(a)}.</b> {code(b)}</li>" for a, b in METHOD)
+    bar = "".join(f"<li><b>{e(a)}.</b> {e(b)}</li>" for a, b in DESIGN_BAR)
+    checklist = "".join(f"<li>{e(x)}</li>" for x in CHECKLIST)
     share_rows = next((rows for name, rows in SECTIONS if name.lower().startswith("sharing")), [])
     share_tools = "".join(f"<tr><th scope=\"row\"><code>{e(n)}</code></th><td>{code(d)}</td></tr>" for n, d in share_rows)
     limits = "".join(f"<li>{e(x)}</li>" for x in LIMITS)
@@ -638,6 +668,13 @@ def agents_page() -> str:
   <p>Every idea, even a tiny one. Your user is not technical and is holding the phone: talk to them there with <code>ask_user</code> and <code>tell_user</code>, in plain words.</p>
   <ol class="doc__list">{method}</ol>
 
+  <h2 class="doc__h">Design bar</h2>
+  <p>Design is the trademark. Every space passes all of these before <code>create_space</code>:</p>
+  <ul class="doc__list">{bar}</ul>
+
+  <h2 class="doc__h">Checklist</h2>
+  <ul class="doc__list doc__check">{checklist}</ul>
+
   <h2 class="doc__h">Endpoint</h2>
   <pre class="doc__code">http://&lt;phone-ip&gt;:&lt;port&gt;/mcp      # Streamable HTTP, default port 7777
 dns-sd -B _{SLUG}._tcp local.            # discover the phone (macOS)
@@ -649,7 +686,7 @@ claude mcp add --transport http {SLUG} http://&lt;phone-ip&gt;:&lt;port&gt;/mcp<
     <li>Call <code>request_pairing()</code>. The phone shows a 6-digit code for 2 minutes.</li>
     <li>Ask the user for the code, then call <code>pair(code, agent_kind, agent_name)</code>: who you are, so the phone shows the right name and logo.</li>
     <li>Run the exact command <code>pair</code> returns: it saves your bearer token, so you stay paired. Never echo the token.</li>
-    <li>Call <code>status()</code>, then read <code>{SLUG}://skill</code> before creating anything. No MCP resources in your client? Call <code>read_guide(name)</code> with <code>skill</code>, <code>tools</code>, <code>recipes</code>, <code>kit</code> or <code>examples/&lt;file&gt;</code>; it works before pairing.</li>
+    <li>Call <code>status()</code>, then read <code>{SLUG}://skill</code> before creating anything. No MCP resources in your client? Call <code>read_guide(name, section?)</code> with <code>skill</code>, <code>tools</code>, <code>recipes</code>, <code>kit</code> or <code>examples/&lt;file&gt;</code>. Long guides return an outline first; ask for a <code>section</code> next. It works before pairing.</li>
   </ol>
 
   <h2 class="doc__h">Tools</h2>

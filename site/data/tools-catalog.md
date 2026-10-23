@@ -1,19 +1,20 @@
-<!-- Snapshot of plinth skill/plinth-design/TOOLS.md tool catalog (feature/method b4dba49). Refresh: copy the '## Tool catalog' section again. -->
-## Tool catalog (generated from the app, 138 tools)
+<!-- Snapshot of plinth skill/plinth-design/TOOLS.md tool catalog (feature/method 0757da9). Refresh: copy the '## Tool catalog' section again. -->
+## Tool catalog (generated from the app, 139 tools)
 Exact names and parameters (`?` = optional). Full JSON schemas: `tools/list`. Annotations: read-only tools never change anything; destructive ones always ask the user on the phone first.
 
 ### Spaces, pairing, widgets, Live Activities, notifications
 | Tool | What it does |
 |---|---|
 | `request_pairing()` | Step 1 of pairing. Shows a 6-digit code on the user's phone (valid 2 minutes). Then ASK THE USER for the code and call pair. |
-| `pair(code, agent_kind, agent_name)` | Step 2 of pairing. Send the 6-digit code the user reads from their phone, plus who you are (agent_kind + agent_name). Returns a bearer token and the exact command to save it. |
-| `status()` | Connection, pairing and phone state. Works without pairing. |
-| `read_guide(name?)` | Returns the Plinth manual as markdown: skill (THE METHOD, design bar, how to talk to the user: read it first), tools (full reference + catalog), recipes (end-to-end walkthroughs), kit (components), or examples/<file>. Same text as the plinth:// resources, for clients that cannot read resources. Works without pairing. |
+| `pair(code, agent_kind, agent_name, project?)` | Step 2 of pairing. Send the 6-digit code the user reads from their phone, plus who you are (agent_kind + agent_name). Returns a bearer token and the exact command to save it. |
+| `set_project(name)` | Tell Plinth which project you're working on (e.g. your repo or folder name). The phone shows it next to your name in the agents list. Empty string clears it. |
+| `status()` | Connection, pairing and phone state (incl. `screen`: busy when another agent is using the screen, with retry_in_s). Works without pairing. |
+| `read_guide(name?, section?)` | Returns the Plinth manual as markdown: skill (THE METHOD, design bar, how to talk to the user: read it first), tools (full reference + catalog), recipes (end-to-end walkthroughs), kit (components), or examples/<file>. Same text as the plinth:// resources, for clients that cannot read resources. Works without pairing. |
 | `list_spaces()` | All spaces on the phone, newest first. |
 | `plan_space(id, goal, scenarios, questions_asked?)` | Call BEFORE create_space for any HTML app: it's how Plinth keeps your user happy. Record the goal (one line), the questions you asked on the phone (≤ 3) and every scenario, each handled or deliberately out of scope (first use/empty, invalid input, errors, offline, repeated taps, background/locked, dark mode, long text, deletion, time passing). Stored with the space (also before it exists); read it back with read_plan. Calling again replaces the plan. |
 | `read_plan(id)` | The plan recorded with plan_space for a space (goal, questions asked, scenarios). Use it before changing a space someone planned. |
-| `create_space(id, title, app?, collection?, html?, icon?, markdown?, network?, open?, theme?)` | Create a space on the phone: an HTML page/mini-app (html) or a native quick note (markdown). Read resource plinth://skill first and follow its design system. Max 20 MB of HTML; put images/video/audio in with upload_asset or fetch_asset instead of inlining them. |
-| `update_space(id, app?, html?, icon?, markdown?, network?, theme?, title?)` | Replace a space's content and/or title/icon. Send only what changes. |
+| `create_space(id, title, app?, collection?, html?, icon?, markdown?, network?, open?, preview_asset?, preview_space?, theme?)` | Create a space on the phone: an HTML page/mini-app (html) or a native quick note (markdown). Read resource plinth://skill first and follow its design system. Max 20 MB of HTML; put images/video/audio in with upload_asset or fetch_asset instead of inlining them. |
+| `update_space(id, app?, html?, icon?, markdown?, network?, preview_asset?, preview_space?, theme?, title?)` | Replace a space's content and/or title/icon. Send only what changes. |
 | `delete_space(id)` | Delete a space and its stored data from the phone. (destructive) |
 | `append_note(space, text, title?)` | Append markdown text to a note space (creates the note if missing). Ideal for quick capture. |
 | `open_space(id)` | Open a space full-screen on the phone. |
@@ -145,8 +146,8 @@ Exact names and parameters (`?` = optional). Full JSON schemas: `tools/list`. An
 ### Collections and media tiles
 | Tool | What it does |
 |---|---|
-| `create_collection(id, title, about?, collection?, cover?, cover_space?, icon?)` | Make a folder on the phone's home that holds spaces, notes, media tiles (and, one level deep, other collections). Its tile shows a stacked preview of 3 items, or the cover image. Tapping opens a screen with a cover header (image, big title, your description) and the same grid. File things with move_to_collection / pin_asset / create_space(collection). |
-| `update_collection(id, about?, cover?, cover_space?, icon?, title?)` | Change a collection's title, icon, description or cover. Send only what changes ("" clears about / cover / icon). |
+| `create_collection(id, title, about?, collection?, cover?, cover_asset?, cover_space?, icon?, logo_asset?, logo_space?)` | Make a folder on the phone's home that holds spaces, notes, media tiles (and, one level deep, other collections). Its tile shows a stacked preview of 3 items, or the cover image. Tapping opens a screen with a cover header (image, big title, your description) and the same grid. File things with move_to_collection / pin_asset / create_space(collection). |
+| `update_collection(id, about?, cover?, cover_asset?, cover_space?, icon?, logo_asset?, logo_space?, title?)` | Change a collection's title, icon, description or cover. Send only what changes ("" clears about / cover / icon). |
 | `move_to_collection(collection, asset?, asset_space?, before?, space?)` | File a tile (space, note, media tile or collection) into a collection, or back home with collection null. Passing `asset` instead pins that media as a new tile there (same as pin_asset). Optional `before` = sibling id to sit in front of (else it goes first). |
 | `list_collection(id?)` | What is inside a collection (or, without id, on the home screen): tiles in display order with kind, title, media type and size, plus storage used. |
 | `delete_collection(id, keep_children?)` | Delete a collection. keep_children true (default) moves everything inside up one level (home or the parent collection); false deletes everything inside too (spaces, media, notes: cannot be undone). (destructive) |
