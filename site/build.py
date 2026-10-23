@@ -54,7 +54,7 @@ T = {
         "og_alt": f"{NAME} : grand titre noir sur une grille en pointillés, une carte blanche au centre avec un bouton rond.",
         "skip": "Aller au contenu", "lang_nav": "Langue",
         "h1_sr": ", l'app iPhone que ton agent de code remplit",
-        "tag": "À ton image",
+        "tag": "À ta façon",
         "body": "Ton agent y dépose notes, listes et mini-apps.<br>Elles arrivent ici, aussitôt.",
         "pill_b": "Colle ça à ton agent", "pill_s": "Le prompt d'installation, en un toucher",
         "copy_label": "Copier le prompt d'installation", "copied": "Prompt copié. Colle-le dans ton agent.",

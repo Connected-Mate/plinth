@@ -14,7 +14,7 @@ const W=1920,H=1080,FPS=30,DUR=16,N=FPS*DUR;
 const INK='#0A0A0A',MUTED='#6E6E6E',SIG='#FF4D1A',BG='#F2F2F2';
 const L={
  en:{tag:'MAKE IT YOURS',body:['Your agent sends notes, lists and tiny apps.','They land here, instantly.'],pill:'Paste this to your agent',toast:'Copied',paired:'PAIRED',note:'GROCERIES',items:['Milk','Bread','Coffee'],week:'THIS WEEK',focus:'FOCUS',live:'Focus',url:'connected-mate.github.io/plinth'},
- fr:{tag:'À TON IMAGE',body:['Ton agent y dépose notes, listes et mini-apps.','Elles arrivent ici, aussitôt.'],pill:'Colle ça à ton agent',toast:'Copié',paired:'CONNECTÉ',note:'COURSES',items:['Lait','Pain','Café'],week:'CETTE SEMAINE',focus:'FOCUS',live:'Focus',url:'connected-mate.github.io/plinth'}};
+ fr:{tag:'À TA FAÇON',body:['Ton agent y dépose notes, listes et mini-apps.','Elles arrivent ici, aussitôt.'],pill:'Colle ça à ton agent',toast:'Copié',paired:'CONNECTÉ',note:'COURSES',items:['Lait','Pain','Café'],week:'CETTE SEMAINE',focus:'FOCUS',live:'Focus',url:'connected-mate.github.io/plinth'}};
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const prog=(t,a,b)=>clamp((t-a)/(b-a));
 // cubic-bezier(.23,1,.32,1)
@@ -145,11 +145,11 @@ const CAP={
      'The card grows and shows a six-digit code, 482 913. A small orange dot lights up next to the word PAIRED.',
      'Four things land one after another: a grocery list with three round checkboxes, two of them ticking, a big countdown timer, a card with an orange progress bar, and a black pill reading "Focus" with the time left.',
      'Everything clears. "Make it yours" appears in huge italic letters, with the address connected-mate.github.io/plinth underneath.'],
- fr:['Une grille pâle apparaît. Le grand mot noir PLINTH arrive en haut à gauche, et en bas à droite la phrase « À ton image » surplombe deux courtes lignes de texte.',
+ fr:['Une grille pâle apparaît. Le grand mot noir PLINTH arrive en haut à gauche, et en bas à droite la phrase « À ta façon » surplombe deux courtes lignes de texte.',
      'Une carte blanche en pilule monte au centre avec la phrase « Colle ça à ton agent » et un bouton rond noir. Le bouton est pressé et une petite étiquette noire « Copié » apparaît.',
      'La carte s’agrandit et affiche un code à six chiffres, 482 913. Un petit point orange s’allume à côté du mot CONNECTÉ.',
      'Quatre éléments arrivent l’un après l’autre : une liste de courses avec trois cases rondes dont deux se cochent, un grand minuteur qui descend, une carte avec une barre de progression orange, et une pastille noire « Focus » avec le temps restant.',
-     'Tout s’efface. « À ton image » apparaît en immenses lettres italiques, avec l’adresse connected-mate.github.io/plinth en dessous.']};
+     'Tout s’efface. « À ta façon » apparaît en immenses lettres italiques, avec l’adresse connected-mate.github.io/plinth en dessous.']};
 const ts=s=>{const m=Math.floor(s/60),x=s-m*60;return String(m).padStart(2,'0')+':'+x.toFixed(3).padStart(6,'0');};
 for(const lang of ['fr','en']){
  fs.writeFileSync(path.join(OUT,`promo-${lang}.vtt`),'WEBVTT\n\n'+beats.map((b,i)=>`${i+1}\n${ts(b[0])} --> ${ts(b[1])}\n${CAP[lang][i]}\n`).join('\n'));
