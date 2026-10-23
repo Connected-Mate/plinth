@@ -76,12 +76,14 @@ T = {
             ("Widgets", "Sur ton écran d'accueil : un titre, une ligne, une barre de progression."),
             ("Live Activities", "Sur l'écran verrouillé et la Dynamic Island, un compte à rebours qui vit."),
             ("Notifications", "Une alerte quand c'est prêt. Un toucher, et tu es dedans."),
+            ("Partage", "Tes invités scannent un QR code et postent leurs photos. Même Wi‑Fi ou partage de connexion, Plinth ouvert."),
         ],
         "tabs_label": "Ce que ton agent peut envoyer",
         "note_title": "Courses", "note_items": ["Pain au levain", "Clémentines", "Café en grains"],
         "timer_title": "Focus", "pause": "Pause", "play": "Reprendre",
         "widget_t": "Livre", "widget_s": "Chapitre 7 sur 12", "widget_hint": "Touche le widget",
         "island_t": "Focus", "island_s": "Fin à 15 h 40",
+        "feed_t": "Soirée", "feed": [("🎈", "Léa", "La photo du gâteau !"), ("🌙", "Sam", "On arrive dans 10 min"), ("🎸", "Nour", "Playlist ajoutée")], "feed_n": "3 invités · 12 photos",
         "notif_t": "Le pain est prêt", "notif_s": "Sors-le du four. Touche pour voir la recette.",
         "panel_note": "Aperçus dessinés avec le design de l'app.",
         "private_h2": "Tout reste<br>sur ton Wi‑Fi.",
@@ -139,12 +141,14 @@ T = {
             ("Widgets", "On your Home Screen: a title, a line, a progress bar."),
             ("Live Activities", "On the Lock Screen and the Dynamic Island, a countdown that stays alive."),
             ("Notifications", "A heads-up when it's ready. One tap and you're in."),
+            ("Sharing", "Guests scan a QR code and post their photos. Same Wi‑Fi or Personal Hotspot, Plinth open."),
         ],
         "tabs_label": "What your agent can send",
         "note_title": "Groceries", "note_items": ["Sourdough", "Clementines", "Coffee beans"],
         "timer_title": "Focus", "pause": "Pause", "play": "Resume",
         "widget_t": "Book", "widget_s": "Chapter 7 of 12", "widget_hint": "Tap the widget",
         "island_t": "Focus", "island_s": "Ends at 3:40 PM",
+        "feed_t": "Party", "feed": [("🎈", "Lea", "Cake photo!"), ("🌙", "Sam", "There in 10 min"), ("🎸", "Nour", "Added the playlist")], "feed_n": "3 guests · 12 photos",
         "notif_t": "Bread is ready", "notif_s": "Take it out of the oven. Tap for the recipe.",
         "panel_note": "Previews drawn with the app's own design.",
         "private_h2": "It all stays<br>on your Wi‑Fi.",
@@ -307,6 +311,9 @@ def page(lang: str) -> str:
         f'<circle cx="18" cy="18" r="15" stroke="#FF4D1A" stroke-dasharray="94.2" stroke-dashoffset="30" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>'
         f'<span><b style="display:block">{e(t["island_t"])}</b><small style="opacity:.7">{e(t["island_s"])}</small></span><strong>24:12</strong></div>',
         f'<div class="card notif"><span class="app" aria-hidden="true">{NAME[0]}</span><b>{e(t["notif_t"])}</b><small>{e(t["notif_s"])}</small></div>',
+        f'<div class="card"><h3>{e(t["feed_t"])}</h3><ul class="feed">'
+        + "".join(f'<li><span class="feed__who" aria-hidden="true">{em}</span><span><b>{e(n)}</b><br><span class="muted">{e(x)}</span></span></li>' for em, n, x in t["feed"])
+        + f'</ul><p class="eyebrow" style="margin-top:12px">{e(t["feed_n"])}</p></div>',
     ]
     panels_html = "".join(
         f'<div class="panel{" is-in" if i == 0 else ""}" role="tabpanel" id="panel-{i}" aria-labelledby="tab-{i}" tabindex="0"{"" if i == 0 else " hidden"}>{p}</div>'
@@ -783,6 +790,13 @@ def main() -> None:
         "icons": [{"src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png"},
                   {"src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png"}],
     }, indent=2), encoding="utf-8")
+    # Cache-busting: Pages serves CSS/JS with max-age=600, so a changed file gets a new URL.
+    import hashlib
+    ver = {f: hashlib.sha256((DOCS / f).read_bytes()).hexdigest()[:8] for f in ("style.css", "site.js", "logs.js")}
+    for page_file in DOCS.rglob("*.html"):
+        txt = page_file.read_text(encoding="utf-8")
+        txt = re.sub(r'((?:href|src)="[^"]*?(style\.css|site\.js|logs\.js))(?:\?v=[0-9a-f]+)?"', lambda m: f'{m.group(1)}?v={ver[m.group(2)]}"', txt)
+        page_file.write_text(txt, encoding="utf-8")
     print("built", DOCS)
 
 
