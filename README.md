@@ -24,4 +24,5 @@ Le film de présentation se refait avec `video/` (voir `video/README.md`). Image
 ## Crédits
 - Police d'affichage « Plinth Display » : Archivo Black / Black Italic, © The Archivo Project Authors, SIL Open Font License 1.1 (`docs/assets/fonts/OFL.txt`).
 - Logos des agents : données Simple Icons (CC0). Les marques appartiennent à leurs propriétaires ; usage descriptif uniquement (« fonctionne avec »), aucun partenariat.
+- Fonds (papier, artisan, tissu, tapis de coupe, verre liquide) : fournis par Alex pour Plinth. Versions web générées par `site/backgrounds.py` (AVIF/WebP ≤ 250 Ko, chargés seulement quand on les choisit).
 - Vidéo rendue avec `@napi-rs/canvas` et `ffmpeg-static`.

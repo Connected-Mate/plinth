@@ -29,7 +29,7 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="assets/fonts/PlinthDisplay-Black.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="style.css?v=e5494011">
+<link rel="stylesheet" href="style.css?v=4bf8389b">
 <script>document.documentElement.classList.add('js');</script>
 <script>(function(){try{var k='plinth-lang',s=localStorage.getItem(k);if(s){if(s==='en')location.replace('en/');return}var n=(navigator.languages&&navigator.languages[0]||navigator.language||'').slice(0,2).toLowerCase();if(n&&n!=='fr'&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace('en/')}}catch(e){}})();</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "Plinth", "operatingSystem": "iOS", "applicationCategory": "DeveloperApplication", "description": "Plinth, app iPhone : ton agent de code y dépose notes, listes, mini-apps, widgets et alertes via ton Wi‑Fi. Sans serveur, sans compte.", "url": "https://connected-mate.github.io/plinth/", "inLanguage": "fr", "image": "https://connected-mate.github.io/plinth/assets/og.jpg", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "publisher": {"@type": "Organization", "name": "Connected Mate", "url": "https://connectedmate.com"}, "author": {"@type": "Person", "name": "Alexandre Cormeraie", "url": "https://cormeraie.fr"}, "featureList": ["Notes", "Mini-apps", "Widgets", "Live Activities", "Notifications", "Partage"], "softwareRequirements": "A coding agent that supports MCP over HTTP (Claude Code, Codex, Cursor, Gemini CLI…)", "sameAs": ["https://github.com/Connected-Mate/plinth"]}, {"@type": "HowTo", "name": "Installer Plinth avec ton agent de code", "inLanguage": "fr", "totalTime": "PT2M", "tool": [{"@type": "HowToTool", "name": "iPhone"}, {"@type": "HowToTool", "name": "Claude Code, Codex, Cursor, Gemini CLI"}], "step": [{"@type": "HowToStep", "position": 1, "name": "Ouvre Plinth", "text": "Sur ton iPhone, sur le même Wi‑Fi que ton Mac. L'app reste vide : elle attend."}, {"@type": "HowToStep", "position": 2, "name": "Copie le prompt", "text": "Touche le bouton rond dans l'app : le prompt contient déjà l'adresse de ton iPhone. Ou copie celui-ci."}, {"@type": "HowToStep", "position": 3, "name": "Donne le code", "text": "Plinth affiche 6 chiffres. Ton agent te les demande, et vous voilà appairés pour de bon."}, {"@type": "HowToStep", "position": 4, "name": "Prompt d'installation", "text": "Plinth est une app sur mon iPhone : tu peux m'y construire de petites apps, des listes et des notes via notre Wi‑Fi (serveur MCP). Je ne suis pas technique : parle-moi avec des mots simples, sur mon téléphone.\nGuide complet : https://github.com/Connected-Mate/plinth/blob/main/AGENT-SETUP.md\n1. Trouve mon téléphone : sur un Mac, lance dns-sd -B _plinth._tcp local. puis dns-sd -L Plinth _plinth._tcp local. (ou demande-moi de toucher le bouton rond dans Plinth et de te coller ce qu'il copie).\n2. Connecte-toi : claude mcp add --transport http plinth http://<ip-du-téléphone>:<port>/mcp (autres agents : ajoute-le comme serveur MCP HTTP). Si ses outils n'apparaissent pas, demande-moi de te redémarrer.\n3. Appelle request_pairing, demande-moi le code à 6 chiffres affiché sur mon téléphone, puis appelle pair avec ce code, agent_kind et agent_name (qui tu es). Lance la commande exacte que pair renvoie, pour rester appairé la prochaine fois.\n4. Lis la ressource plinth://skill (ou appelle read_guide) et suis THE METHOD : comprends ce qui me ferait plaisir, pose-moi au plus 3 questions courtes sur mon téléphone (ask_user), planifie chaque cas (plan_space), construis, prouve que ça marche (screenshot_space), puis dis-moi sur le téléphone (tell_user) comment m'en servir.\nPlinth ne répond que quand l'app est ouverte sur mon téléphone.", "url": "https://github.com/Connected-Mate/plinth/blob/main/AGENT-SETUP.md"}]}]}</script>
@@ -40,7 +40,8 @@
 <p id="live" class="sr-only" aria-live="polite"></p>
 <div class="toast" aria-hidden="true"><i></i><span></span></div>
 <main id="main">
-<section class="hero" aria-labelledby="h1">
+<section class="hero" aria-labelledby="h1" data-bg-canvas>
+  <div class="bgfx" aria-hidden="true"><i></i><i></i></div>
   <h1 id="h1" class="display hero__name rise" style="--i:0">Plinth<span class="sr-only">, l&#x27;app iPhone que ton agent de code remplit</span></h1>
   <div class="hero__center">
     <div class="pill rise" style="--i:2">
@@ -53,6 +54,25 @@
     <p class="display display--italic">À ta façon</p>
     <p>Ton agent y dépose notes, listes et mini-apps.<br>Elles arrivent ici, aussitôt.</p>
   </div>
+</section>
+
+<section id="fonds" class="bgpick" aria-labelledby="bg-h">
+  <div class="bgpick__text">
+    <p class="eyebrow">Choisis ton fond</p>
+    <h2 id="bg-h" class="display">Ton fond,<br>tes règles.</h2>
+    <p class="lede">Dans l&#x27;app, tu changes le fond de ton écran d&#x27;accueil d&#x27;un geste. Essaie-les ici : l&#x27;aperçu et le haut de la page changent en direct.</p>
+    <fieldset class="bgpick__set"><legend class="eyebrow">Famille de fond</legend><div class="chips"><label class="chip"><input type="radio" name="bg-family" value="grid" checked><span class="chip__face chip__face--grid" aria-hidden="true"></span><span>Grille</span></label><label class="chip"><input type="radio" name="bg-family" value="paper"><img class="chip__face" src="assets/bg/paper-1-t.webp" alt="" width="28" height="28" loading="lazy" decoding="async"><span>Papier</span></label><label class="chip"><input type="radio" name="bg-family" value="artisan"><img class="chip__face" src="assets/bg/artisan-1-t.webp" alt="" width="28" height="28" loading="lazy" decoding="async"><span>Artisan</span></label><label class="chip"><input type="radio" name="bg-family" value="fabric"><img class="chip__face" src="assets/bg/fabric-1-t.webp" alt="" width="28" height="28" loading="lazy" decoding="async"><span>Tissu</span></label><label class="chip"><input type="radio" name="bg-family" value="mat"><img class="chip__face" src="assets/bg/mat-1-t.webp" alt="" width="28" height="28" loading="lazy" decoding="async"><span>Tapis de coupe</span></label><label class="chip"><input type="radio" name="bg-family" value="glass"><img class="chip__face" src="assets/bg/glass-1-t.webp" alt="" width="28" height="28" loading="lazy" decoding="async"><span>Verre liquide</span></label></div></fieldset>
+    <fieldset class="bgpick__set" data-bg-variants hidden><legend class="eyebrow">Variante</legend><div class="swatches" data-bg-swatches></div></fieldset>
+    <p class="bgpick__status" data-bg-status aria-live="polite"></p>
+    <a class="bgpick__top" href="#main">Voir en haut de page</a>
+  </div>
+  <figure class="bgpick__preview" data-bg-canvas aria-label="Aperçu de l&#x27;écran d&#x27;accueil avec le fond choisi">
+    <div class="bgfx" aria-hidden="true"><i></i><i></i></div>
+    <p class="mini__name" aria-hidden="true">Plinth</p>
+    <div class="mini__pill" aria-hidden="true"><span>Colle ça à ton agent</span><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></i></div>
+    <p class="mini__tag" aria-hidden="true">À ta façon</p>
+  </figure>
+  <script type="application/json" id="bg-config">{"lang": "fr", "base": "assets/bg/", "families": [{"key": "paper", "label": {"fr": "Papier", "en": "Paper"}, "items": [{"id": "paper-1", "w": 1600, "h": 2265, "avg": "#cdcccd", "tone": "light", "kb": [139, 244]}, {"id": "paper-2", "w": 1350, "h": 2400, "avg": "#710f12", "tone": "dark", "kb": [175, 104]}]}, {"key": "artisan", "label": {"fr": "Artisan", "en": "Artisan"}, "items": [{"id": "artisan-1", "w": 1472, "h": 2208, "avg": "#a89481", "tone": "light", "kb": [191, 243]}, {"id": "artisan-2", "w": 1200, "h": 2400, "avg": "#935646", "tone": "dark", "kb": [193, 220]}, {"id": "artisan-3", "w": 1600, "h": 2384, "avg": "#a7aa85", "tone": "light", "kb": [215, 243]}, {"id": "artisan-4", "w": 1440, "h": 2400, "avg": "#dbd2c8", "tone": "light", "kb": [198, 242]}]}, {"key": "fabric", "label": {"fr": "Tissu", "en": "Fabric"}, "items": [{"id": "fabric-1", "w": 1280, "h": 1712, "avg": "#1f1e20", "tone": "dark", "kb": [225, 78]}, {"id": "fabric-2", "w": 1401, "h": 2400, "avg": "#adaaa6", "tone": "light", "kb": [193, 234]}, {"id": "fabric-3", "w": 1202, "h": 2312, "avg": "#475577", "tone": "dark", "kb": [183, 238]}, {"id": "fabric-4", "w": 1160, "h": 1740, "avg": "#cdc3b7", "tone": "light", "kb": [211, 247]}]}, {"key": "mat", "label": {"fr": "Tapis de coupe", "en": "Cutting mat"}, "items": [{"id": "mat-1", "w": 1351, "h": 2400, "avg": "#3c5a8f", "tone": "dark", "kb": [133, 65]}, {"id": "mat-2", "w": 1600, "h": 1207, "avg": "#212121", "tone": "dark", "kb": [182, 219]}, {"id": "mat-3", "w": 1340, "h": 2400, "avg": "#218760", "tone": "dark", "kb": [217, 128]}, {"id": "mat-4", "w": 1340, "h": 2400, "avg": "#dd692a", "tone": "dark", "kb": [199, 127]}]}, {"key": "glass", "label": {"fr": "Verre liquide", "en": "Liquid glass"}, "items": [{"id": "glass-1", "w": 1371, "h": 2400, "avg": "#064275", "tone": "dark", "kb": [64, 40]}, {"id": "glass-2", "w": 1472, "h": 828, "avg": "#291c46", "tone": "dark", "kb": [27, 10]}, {"id": "glass-3", "w": 1472, "h": 2208, "avg": "#686868", "tone": "dark", "kb": [83, 58]}, {"id": "glass-4", "w": 1470, "h": 980, "avg": "#423a57", "tone": "dark", "kb": [31, 17]}]}], "t": {"bg_loading": "Chargement du fond…", "bg_set": "Fond : {name}", "bg_fail": "Ce fond n'a pas pu se charger. Le précédent reste en place.", "bg_grid": "Grille"}}</script>
 </section>
 
 <section id="how" aria-labelledby="how-h" data-reveal>
@@ -153,5 +173,6 @@ Plinth ne répond que quand l&#x27;app est ouverte sur mon téléphone.</pre>
   <small>© 2026 Connected Mate. Fait à Paris. Ton contenu reste sur ton Wi‑Fi : pas de serveur, pas de compte.</small>
 </footer>
 <script src="site.js?v=cb32c2f5" defer></script>
+<script src="bg.js?v=a40e9ddf" defer></script>
 </body>
 </html>

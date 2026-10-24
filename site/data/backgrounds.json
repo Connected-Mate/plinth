@@ -1,0 +1,245 @@
+[
+ {
+  "key": "paper",
+  "label": {
+   "fr": "Papier",
+   "en": "Paper"
+  },
+  "items": [
+   {
+    "id": "paper-1",
+    "w": 1600,
+    "h": 2265,
+    "avg": "#cdcccd",
+    "tone": "light",
+    "kb": [
+     139,
+     244
+    ]
+   },
+   {
+    "id": "paper-2",
+    "w": 1350,
+    "h": 2400,
+    "avg": "#710f12",
+    "tone": "dark",
+    "kb": [
+     175,
+     104
+    ]
+   }
+  ]
+ },
+ {
+  "key": "artisan",
+  "label": {
+   "fr": "Artisan",
+   "en": "Artisan"
+  },
+  "items": [
+   {
+    "id": "artisan-1",
+    "w": 1472,
+    "h": 2208,
+    "avg": "#a89481",
+    "tone": "light",
+    "kb": [
+     191,
+     243
+    ]
+   },
+   {
+    "id": "artisan-2",
+    "w": 1200,
+    "h": 2400,
+    "avg": "#935646",
+    "tone": "dark",
+    "kb": [
+     193,
+     220
+    ]
+   },
+   {
+    "id": "artisan-3",
+    "w": 1600,
+    "h": 2384,
+    "avg": "#a7aa85",
+    "tone": "light",
+    "kb": [
+     215,
+     243
+    ]
+   },
+   {
+    "id": "artisan-4",
+    "w": 1440,
+    "h": 2400,
+    "avg": "#dbd2c8",
+    "tone": "light",
+    "kb": [
+     198,
+     242
+    ]
+   }
+  ]
+ },
+ {
+  "key": "fabric",
+  "label": {
+   "fr": "Tissu",
+   "en": "Fabric"
+  },
+  "items": [
+   {
+    "id": "fabric-1",
+    "w": 1280,
+    "h": 1712,
+    "avg": "#1f1e20",
+    "tone": "dark",
+    "kb": [
+     225,
+     78
+    ]
+   },
+   {
+    "id": "fabric-2",
+    "w": 1401,
+    "h": 2400,
+    "avg": "#adaaa6",
+    "tone": "light",
+    "kb": [
+     193,
+     234
+    ]
+   },
+   {
+    "id": "fabric-3",
+    "w": 1202,
+    "h": 2312,
+    "avg": "#475577",
+    "tone": "dark",
+    "kb": [
+     183,
+     238
+    ]
+   },
+   {
+    "id": "fabric-4",
+    "w": 1160,
+    "h": 1740,
+    "avg": "#cdc3b7",
+    "tone": "light",
+    "kb": [
+     211,
+     247
+    ]
+   }
+  ]
+ },
+ {
+  "key": "mat",
+  "label": {
+   "fr": "Tapis de coupe",
+   "en": "Cutting mat"
+  },
+  "items": [
+   {
+    "id": "mat-1",
+    "w": 1351,
+    "h": 2400,
+    "avg": "#3c5a8f",
+    "tone": "dark",
+    "kb": [
+     133,
+     65
+    ]
+   },
+   {
+    "id": "mat-2",
+    "w": 1600,
+    "h": 1207,
+    "avg": "#212121",
+    "tone": "dark",
+    "kb": [
+     182,
+     219
+    ]
+   },
+   {
+    "id": "mat-3",
+    "w": 1340,
+    "h": 2400,
+    "avg": "#218760",
+    "tone": "dark",
+    "kb": [
+     217,
+     128
+    ]
+   },
+   {
+    "id": "mat-4",
+    "w": 1340,
+    "h": 2400,
+    "avg": "#dd692a",
+    "tone": "dark",
+    "kb": [
+     199,
+     127
+    ]
+   }
+  ]
+ },
+ {
+  "key": "glass",
+  "label": {
+   "fr": "Verre liquide",
+   "en": "Liquid glass"
+  },
+  "items": [
+   {
+    "id": "glass-1",
+    "w": 1371,
+    "h": 2400,
+    "avg": "#064275",
+    "tone": "dark",
+    "kb": [
+     64,
+     40
+    ]
+   },
+   {
+    "id": "glass-2",
+    "w": 1472,
+    "h": 828,
+    "avg": "#291c46",
+    "tone": "dark",
+    "kb": [
+     27,
+     10
+    ]
+   },
+   {
+    "id": "glass-3",
+    "w": 1472,
+    "h": 2208,
+    "avg": "#686868",
+    "tone": "dark",
+    "kb": [
+     83,
+     58
+    ]
+   },
+   {
+    "id": "glass-4",
+    "w": 1470,
+    "h": 980,
+    "avg": "#423a57",
+    "tone": "dark",
+    "kb": [
+     31,
+     17
+    ]
+   }
+  ]
+ }
+]

@@ -60,6 +60,11 @@ T = {
         "copy_label": "Copier le prompt d'installation", "copied": "Prompt copié. Colle-le dans ton agent.",
         "fail": "Copie bloquée : le prompt est sélectionné, fais Cmd+C.",
         "meta": ["Gratuit", "iPhone", "Bientôt disponible"], "how_link": "Comment ça marche",
+        "bg_eyebrow": "Choisis ton fond", "bg_h2": "Ton fond,<br>tes règles.",
+        "bg_p": "Dans l'app, tu changes le fond de ton écran d'accueil d'un geste. Essaie-les ici : l'aperçu et le haut de la page changent en direct.",
+        "bg_family": "Famille de fond", "bg_variant": "Variante", "bg_grid": "Grille", "bg_grid_d": "Le fond d'origine",
+        "bg_loading": "Chargement du fond…", "bg_set": "Fond : {name}", "bg_fail": "Ce fond n'a pas pu se charger. Le précédent reste en place.",
+        "bg_top": "Voir en haut de page", "bg_preview": "Aperçu de l'écran d'accueil avec le fond choisi",
         "how_eyebrow": "Comment ça marche", "how_h2": "Trois gestes,<br>c'est branché.",
         "steps": [
             ("Ouvre " + NAME, "Sur ton iPhone, sur le même Wi‑Fi que ton Mac. L'app reste vide : elle attend."),
@@ -125,6 +130,11 @@ T = {
         "copy_label": "Copy the setup prompt", "copied": "Prompt copied. Paste it into your agent.",
         "fail": "Copy blocked: the prompt is selected, press Cmd+C.",
         "meta": ["Free", "iPhone", "Coming soon"], "how_link": "How it works",
+        "bg_eyebrow": "Choose your background", "bg_h2": "Your background,<br>your rules.",
+        "bg_p": "In the app, you change your Home Screen background in one tap. Try them here: the preview and the top of this page switch live.",
+        "bg_family": "Background family", "bg_variant": "Variant", "bg_grid": "Grid", "bg_grid_d": "The original",
+        "bg_loading": "Loading background…", "bg_set": "Background: {name}", "bg_fail": "That background couldn't load. The previous one stays.",
+        "bg_top": "See it at the top", "bg_preview": "Home Screen preview with the chosen background",
         "how_eyebrow": "How it works", "how_h2": "Three moves,<br>you're in.",
         "steps": [
             ("Open " + NAME, "On your iPhone, on the same Wi‑Fi as your Mac. The app stays empty: it's waiting."),
@@ -337,7 +347,8 @@ def page(lang: str) -> str:
 <p id="live" class="sr-only" aria-live="polite"></p>
 <div class="toast" aria-hidden="true"><i></i><span></span></div>
 <main id="main">
-<section class="hero" aria-labelledby="h1">
+<section class="hero" aria-labelledby="h1" data-bg-canvas>
+  <div class="bgfx" aria-hidden="true"><i></i><i></i></div>
   <h1 id="h1" class="display hero__name rise" style="--i:0">{NAME}<span class="sr-only">{e(t['h1_sr'])}</span></h1>
   <div class="hero__center">
     <div class="pill rise" style="--i:2">
@@ -351,6 +362,8 @@ def page(lang: str) -> str:
     <p>{t['body']}</p>
   </div>
 </section>
+
+{bg_section(lang)}
 
 <section id="how" aria-labelledby="how-h" data-reveal>
   <div id="agent" class="section__head">
@@ -444,9 +457,45 @@ def page(lang: str) -> str:
   <small>{e(t['f_note'])}</small>
 </footer>
 <script src="{prefix}site.js" defer></script>
+<script src="{prefix}bg.js" defer></script>
 </body>
 </html>
 """
+
+
+BACKGROUNDS = json.loads((ROOT / "site/data/backgrounds.json").read_text(encoding="utf-8"))
+
+
+def bg_section(lang: str) -> str:
+    t = T[lang]
+    a = "" if lang == "fr" else "../"
+    fams = [f'<label class="chip"><input type="radio" name="bg-family" value="grid" checked>'
+            f'<span class="chip__face chip__face--grid" aria-hidden="true"></span><span>{e(t["bg_grid"])}</span></label>']
+    for f in BACKGROUNDS:
+        th = f["items"][0]["id"]
+        fams.append(f'<label class="chip"><input type="radio" name="bg-family" value="{f["key"]}">'
+                    f'<img class="chip__face" src="{a}assets/bg/{th}-t.webp" alt="" width="28" height="28" loading="lazy" decoding="async">'
+                    f'<span>{e(f["label"][lang])}</span></label>')
+    cfg = {"lang": lang, "base": a + "assets/bg/", "families": BACKGROUNDS,
+           "t": {k: t[k] for k in ("bg_loading", "bg_set", "bg_fail", "bg_grid")}}
+    return f"""<section id="fonds" class="bgpick" aria-labelledby="bg-h">
+  <div class="bgpick__text">
+    <p class="eyebrow">{e(t['bg_eyebrow'])}</p>
+    <h2 id="bg-h" class="display">{t['bg_h2']}</h2>
+    <p class="lede">{e(t['bg_p'])}</p>
+    <fieldset class="bgpick__set"><legend class="eyebrow">{e(t['bg_family'])}</legend><div class="chips">{''.join(fams)}</div></fieldset>
+    <fieldset class="bgpick__set" data-bg-variants hidden><legend class="eyebrow">{e(t['bg_variant'])}</legend><div class="swatches" data-bg-swatches></div></fieldset>
+    <p class="bgpick__status" data-bg-status aria-live="polite"></p>
+    <a class="bgpick__top" href="#main">{e(t['bg_top'])}</a>
+  </div>
+  <figure class="bgpick__preview" data-bg-canvas aria-label="{e(t['bg_preview'])}">
+    <div class="bgfx" aria-hidden="true"><i></i><i></i></div>
+    <p class="mini__name" aria-hidden="true">{NAME}</p>
+    <div class="mini__pill" aria-hidden="true"><span>{e(t['pill_b'])}</span><i>{ARROW}</i></div>
+    <p class="mini__tag" aria-hidden="true">{e(t['tag'])}</p>
+  </figure>
+  <script type="application/json" id="bg-config">{json.dumps(cfg, ensure_ascii=False)}</script>
+</section>"""
 
 
 def not_found() -> str:
@@ -829,10 +878,10 @@ def main() -> None:
     }, indent=2), encoding="utf-8")
     # Cache-busting: Pages serves CSS/JS with max-age=600, so a changed file gets a new URL.
     import hashlib
-    ver = {f: hashlib.sha256((DOCS / f).read_bytes()).hexdigest()[:8] for f in ("style.css", "site.js", "logs.js")}
+    ver = {f: hashlib.sha256((DOCS / f).read_bytes()).hexdigest()[:8] for f in ("style.css", "site.js", "logs.js", "bg.js")}
     for page_file in DOCS.rglob("*.html"):
         txt = page_file.read_text(encoding="utf-8")
-        txt = re.sub(r'((?:href|src)="[^"]*?(style\.css|site\.js|logs\.js))(?:\?v=[0-9a-f]+)?"', lambda m: f'{m.group(1)}?v={ver[m.group(2)]}"', txt)
+        txt = re.sub(r'((?:href|src)="[^"]*?(style\.css|site\.js|logs\.js|bg\.js))(?:\?v=[0-9a-f]+)?"', lambda m: f'{m.group(1)}?v={ver[m.group(2)]}"', txt)
         page_file.write_text(txt, encoding="utf-8")
     print("built", DOCS)
 
