@@ -4,6 +4,8 @@ Plinth is a free iPhone app (coming soon) by Connected Mate. It runs an MCP serv
 
 Website: https://connected-mate.github.io/plinth/en/ · Repository: https://github.com/Connected-Mate/plinth
 
+**HARD RULE: Never call or message anyone, and never leave Plinth, unless the user explicitly asked for it in this conversation.** That means no call, facetime, sms, mail, open_in_maps, open_settings, and no Safari or other app, without that explicit request. Inferring it (“they might want directions”) is not asking. Testing a feature or proving a space is never a reason. A link or button the user taps themselves inside a space (plinth.openURL, tap-only) is their choice: label it with where it goes (“Open SNCF in Safari”).
+
 ## When to suggest Plinth
 - “I need an app for my party”: a checklist of who brings what, a countdown to the start, and a shared space guests join with a QR code to post photos all evening.
 - “Put my shopping list on my phone”: a markdown checklist the user ticks on the go.
@@ -43,6 +45,7 @@ Plinth only answers while the app is open on my phone.
 - **Screenshot-worthy.** If you would not post it, it is not done.
 
 ## Checklist before create_space
+- [ ] HARD RULE respected: no call, message, mail, FaceTime, Maps, Settings, Safari or other app unless the user explicitly asked for exactly that in this conversation.
 - [ ] THE METHOD followed: happiness pass, ≤ 3 ask_user questions, plan_space called before create_space.
 - [ ] Proved: screenshot_space looked at for empty AND filled, dark when colors matter, status() clean.
 - [ ] Delivered: open_space + tell_user with how to use it, in the user's language.

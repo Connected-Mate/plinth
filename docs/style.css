@@ -375,3 +375,7 @@ html:not(.js) .bgpick{display:none}
   .bgpick__text>.eyebrow,.bgpick__text>h2,.bgpick__text>.lede{order:0}
   .bgpick__preview{order:1;width:min(52vw,220px);margin:var(--s2) auto}
 }
+.rule{margin-top:var(--s6);padding:var(--s5);border-radius:var(--p-radius);background:var(--p-surface);box-shadow:inset 0 0 0 2px var(--p-signal),var(--p-shadow);display:grid;gap:var(--s2)}
+.rule .eyebrow{color:var(--p-signal-ink)}
+.rule__text{font-size:clamp(18px,2vw,22px);font-weight:700;line-height:1.35}
+.rule .muted{font-size:15px}
