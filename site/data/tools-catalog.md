@@ -1,4 +1,4 @@
-<!-- Snapshot of plinth skill/plinth-design/TOOLS.md tool catalog (feature/method 0757da9). Refresh: copy the '## Tool catalog' section again. -->
+<!-- Snapshot of plinth skill/plinth-design/TOOLS.md tool catalog (feature/method 5062acc). Refresh: copy the '## Tool catalog' section again. -->
 ## Tool catalog (generated from the app, 139 tools)
 Exact names and parameters (`?` = optional). Full JSON schemas: `tools/list`. Annotations: read-only tools never change anything; destructive ones always ask the user on the phone first.
 
@@ -87,7 +87,7 @@ Exact names and parameters (`?` = optional). Full JSON schemas: `tools/list`. An
 | `nfc_read()` | Show the iOS NFC sheet; the user holds the top of the iPhone near an NFC tag. Returns its NDEF records (text, URL, MIME). 60 s timeout. |
 | `nfc_write(records)` | Write NDEF records (text and/or URL) to a writable NFC tag the user holds near the phone. Overwrites the tag. |
 | `home_list()` | Apple Home: homes, rooms, accessories with their controllable characteristics and current values. First use shows an iOS permission prompt on the phone; if the user declines, the tool returns an error telling them where to enable it in Settings. |
-| `home_set(accessory, characteristic, value)` | Turn a light on/off, dim it, set color, thermostat, lock, blinds. |
+| `home_set(accessory, characteristic, value)` | Turn a light on/off, dim it, set color, thermostat, lock, blinds. Unlocking, and anything on a garage door, alarm, door or window, first asks the user on the phone (a refusal comes back as an error: nothing changed). |
 | `health_read(type, limit?, since?, until?)` | Apple Health samples and totals: steps, distance (m), active_energy (kcal), heart_rate (bpm), resting_heart_rate, flights, weight (kg), water (ml), sleep (min, by stage), workouts, mindful (min). iOS never says if reading was denied: no data may mean no permission. First use shows an iOS permission prompt on the phone; if the user declines, the tool returns an error telling them where to enable it in Settings. |
 | `health_write(type, value, at?)` | Log a sample to Apple Health: steps (count), distance (m), active_energy (kcal), heart_rate (bpm), weight (kg), water (ml), mindful (min). First use shows an iOS permission prompt on the phone; if the user declines, the tool returns an error telling them where to enable it in Settings. |
 | `motion_sample(duration_s?, hz?)` | Record accelerometer, gyroscope and attitude (pitch/roll/yaw) for a few seconds. Returns averages, peaks and up to 100 samples. No permission needed. |

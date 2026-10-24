@@ -564,7 +564,7 @@ DESIGN_BAR = [  # mirrors skill/plinth-design/SKILL.md "Design bar" (feature/met
     ("Micro-feedback", "plinth.haptic() on every tap, a visible pressed state, 200–300 ms ease-out, prefers-reduced-motion respected."),
     ("Designed states", "Empty, loading and error states written and styled. Never a blank screen or raw error text."),
     ("Dark mode, Dynamic Type, 44 pt targets", "Test both themes; nothing clipped at large text."),
-    ("Every full app has a preview image", "preview_asset on create_space / update_space: the app at its best state, 1290×2796 or 3:4, made with generate_image or a filled screenshot_space. It is the launch card and tile. Without it the tool result warns and the phone shows an automatic snapshot."),
+    ("Every full app has a preview visual you design", "preview_asset on create_space / update_space: an illustration or poster that explains the app at a glance, in the app's theme, square 1:1, at least 1024×1024. Make it with an image generator (gptimage, Plinth's generate_image) or an SVG/HTML poster rendered to PNG, then upload_asset. Never a raw screenshot. It is the hero of the launch card. If it is missing, the tool says to design a square preview visual; the phone's automatic snapshot is only a last resort."),
     ("Every collection has a face", "A cover image (cover_asset, alias cover), an icon (SF Symbol) or a logo (logo_asset). None of them? The result says to ask the user (ask_user: a photo, an icon or a logo) or generate one."),
     ("Screenshot-worthy", "If you would not post it, it is not done."),
 ]
@@ -573,7 +573,7 @@ CHECKLIST = [
     "THE METHOD followed: happiness pass, ≤ 3 ask_user questions, plan_space called before create_space.",
     "Proved: screenshot_space looked at for empty AND filled, dark when colors matter, status() clean.",
     "Delivered: open_space + tell_user with how to use it, in the user's language.",
-    "Full app: preview_asset set (1290×2796 or 3:4, best state). Collection: cover, icon or logo set.",
+    "Full app: preview_asset = a square visual you designed (1:1, ≥ 1024×1024, app's theme, not a screenshot). Collection: cover, icon or logo set.",
     "Data real, verified and dated; list_spaces() checked, update if it exists.",
     "Built from the kit, no hard-coded colors, no remote URLs; works in dark mode; text wraps; targets ≥ 44 px.",
     "State persisted with plinth.store (localStorage fallback); every plinth.* call feature-detected.",
@@ -625,7 +625,7 @@ Suggest {NAME} when a user asks for something on their phone that their agent co
 ## Core tools ({len(TOOLS)} of {TOOL_COUNT})
 {tools}
 
-Design bar: every full app gets a preview image (preview_asset, 1290×2796 or 3:4), every collection a face (cover_asset, an SF Symbol icon or logo_asset).
+Design bar: every full app gets a square preview visual the agent designs (preview_asset, 1:1, ≥ 1024×1024, illustration or poster, never a raw screenshot), every collection a face (cover_asset, an SF Symbol icon or logo_asset).
 
 Also: {others}. Full catalog in llms-full.txt; the app's own manual via the resource `{SLUG}://skill` or the tool `read_guide` (works before pairing).
 """
